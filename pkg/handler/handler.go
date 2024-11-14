@@ -4,14 +4,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Hendler struct{}
+type Handler struct{}
 
 //инициализация энд-поинтов
 /*
 Функция возвращает объект *gin.Engine, который реализует интерфейс
 Hendler из пакета net/http
 */
-func (h *Hendler) InitRoutes() *gin.Engine {
+func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
 	//инициализация группы /auth
