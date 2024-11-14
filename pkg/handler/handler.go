@@ -1,16 +1,23 @@
 package handler
 
 import (
+	"ToDoApp/pkg/service"
 	"github.com/gin-gonic/gin"
 )
 
-type Handler struct{}
+type Handler struct{
+	services *service.Service
+}
 
 //инициализация энд-поинтов
 /*
 Функция возвращает объект *gin.Engine, который реализует интерфейс
 Hendler из пакета net/http
 */
+
+func NewHandler(service *service.Service) *Handler {
+	return &Handler{services: service}
+}
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 

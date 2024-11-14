@@ -2,15 +2,31 @@ package main
 
 import (
 	todo "ToDoApp"
-	"log"
 	"ToDoApp/pkg/handler"
+	"ToDoApp/pkg/repository"
+	"ToDoApp/pkg/service"
+	"log"
+
+	"github.com/spf13/viper"
 )
 
 func main() {
-	handlers := new(handler.Handler)
+	if err := InitConfig(); err != nil {
+		log.Fatalf("error occured while init config: %s", err.Error())
+	}
+	repos := repository.NewRepository()
+	services := service.NewService(repos)
+	handlers := handler.NewHandler(services)
+
 	srv := new(todo.Server)
 
-	if err := srv.Run("8000", handlers.InitRoutes()); err != nil {
+	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 		log.Fatalf("error occured while run HTTP server: %s", err.Error())
 	}
+}
+
+func InitConfig() error {
+	viper.AddConfigPath("configs")
+	viper.SetConfigName("configs")
+	return viper.ReadInConfig()
 }
