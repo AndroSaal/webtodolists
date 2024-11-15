@@ -1,8 +1,10 @@
 package repository
 
+import "github.com/jmoiron/sqlx"
+
 // интерфейс для работы с пользователем
 type Authorization interface{
-	
+
 }
 
 // интерфейсы для работы со списками
@@ -21,6 +23,6 @@ type Repository struct {
 	TodoItem
 }
 
-func NewRepository() *Repository {
+func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{}
 }

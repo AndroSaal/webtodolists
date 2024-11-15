@@ -1,2 +1,10 @@
 #Стандартный порт
-port: "8080"
+port: "80"
+
+db:
+    username: "postgres"
+    password: "qwerty"
+    host: "localhost"
+    port: "5432"
+    dbname: "postgres"
+    sslmode: "disable"
