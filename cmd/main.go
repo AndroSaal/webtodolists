@@ -5,24 +5,30 @@ import (
 	"ToDoApp/pkg/handler"
 	"ToDoApp/pkg/repository"
 	"ToDoApp/pkg/service"
-	"log"
+
+	//"log"
 	"os"
 
 	//драйвер для работы pgsql - реализация интерфейса из sqlx
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	"github.com/sirupsen/logrus"
 
 	"github.com/spf13/viper"
 )
 
 func main() {
+	//задаем формат логов - JSON
+	//logrus.SetFormatter(&logrus.JSONFormatter{})
+
 	//Инициализация конфига
 	if err := InitConfig(); err != nil {
-		log.Fatalf("error occured while init config: %s", err.Error())
+		logrus.Fatalf("error occured while init config: %s", err.Error())
 	}
 
+	//инициализация дополнительных переменных окружения
 	if err := godotenv.Load(); err != nil {
-		log.Fatalf("error loading env variables: %s", err.Error())
+		logrus.Fatalf("error loading env variables: %s", err.Error())
 	}
 
 	//Инициализируем БД
@@ -35,7 +41,7 @@ func main() {
 		Password: os.Getenv("DB_PASSWORD"),
 	})
 	if err != nil {
-		log.Fatalf("failed to connect to database: %s", err.Error())
+		logrus.Fatalf("failed to connect to database: %s", err.Error())
 	}
 
 	repos := repository.NewRepository(db)
@@ -45,7 +51,7 @@ func main() {
 	srv := new(todo.Server)
 
 	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
-		log.Fatalf("error occured while run HTTP server: %s", err.Error())
+		logrus.Fatalf("error occured while run HTTP server: %s", err.Error())
 	}
 }
 
@@ -53,7 +59,7 @@ func InitConfig() error {
 	//добавление пути к фалйлу конфигурации относительно корневой директории
 	viper.AddConfigPath("configs")
 	//имя файла конфигурации
-	viper.SetConfigName("configs")
+	viper.SetConfigName("config")
 	//возфращаем функцию которая инициализирует значения из файла конфигурации
 	return viper.ReadInConfig()
 }
