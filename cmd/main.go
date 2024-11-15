@@ -6,11 +6,11 @@ import (
 	"ToDoApp/pkg/repository"
 	"ToDoApp/pkg/service"
 	"log"
-
 	"github.com/spf13/viper"
 )
 
 func main() {
+	//Инициализация конфига
 	if err := InitConfig(); err != nil {
 		log.Fatalf("error occured while init config: %s", err.Error())
 	}
@@ -26,7 +26,10 @@ func main() {
 }
 
 func InitConfig() error {
+	//добавление пути к фалйлу конфигурации относительно корневой директории
 	viper.AddConfigPath("configs")
+	//имя файла конфигурации
 	viper.SetConfigName("configs")
+	//возфращаем функцию которая инициализирует значения из файла конфигурации
 	return viper.ReadInConfig()
 }
