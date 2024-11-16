@@ -2,10 +2,11 @@ package handler
 
 import (
 	"ToDoApp/pkg/service"
+
 	"github.com/gin-gonic/gin"
 )
 
-type Handler struct{
+type Handler struct {
 	services *service.Service
 }
 

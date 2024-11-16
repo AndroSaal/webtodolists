@@ -1,9 +1,14 @@
 package service
 
-import "ToDoApp/pkg/repository"
+import (
+	todo "ToDoApp"
+	"ToDoApp/pkg/repository"
+)
 
 // интерфейс для работы с пользователем
 type Authorization interface {
+	//принимает структуру юзера и возвращает его id в базе и ошибку
+	CreateUser(user todo.User) (int, error)
 }
 
 // интерфейсы для работы со списками
@@ -22,5 +27,7 @@ type Service struct {
 }
 
 func NewService(repos *repository.Repository) *Service {
-	return &Service{}
+	return &Service{
+		Authorization: NewAuthService(repos.Authorization),
+	}
 }

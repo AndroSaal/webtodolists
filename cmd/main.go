@@ -59,7 +59,7 @@ func InitConfig() error {
 	//добавление пути к фалйлу конфигурации относительно корневой директории
 	viper.AddConfigPath("configs")
 	//имя файла конфигурации
-	viper.SetConfigName("config")
+	viper.SetConfigName("configs")
 	//возфращаем функцию которая инициализирует значения из файла конфигурации
 	return viper.ReadInConfig()
 }

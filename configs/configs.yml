@@ -1,5 +1,5 @@
 #Стандартный порт
-port: "80"
+port: "8000"
 
 db:
     username: "postgres"
