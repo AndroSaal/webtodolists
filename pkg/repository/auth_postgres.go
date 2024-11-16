@@ -28,5 +28,5 @@ func (r *AuthPostgres) CreateUser(user todo.User) (int, error) {
 	if err := row.Scan(&id); err != nil {
 		return 0, err
 	}
-	return 0, nil
+	return id, nil
 }
