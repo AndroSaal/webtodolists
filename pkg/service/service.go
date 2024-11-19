@@ -9,6 +9,12 @@ import (
 type Authorization interface {
 	//принимает структуру юзера и возвращает его id в базе и ошибку
 	CreateUser(user todo.User) (int, error)
+
+	//получение пользователя по его логину и поролю
+	GetUser(username, password string) (todo.User, error)
+
+	//генерация пользователю токена
+	GenerateToken(username, password string) (string, error)
 }
 
 // интерфейсы для работы со списками
@@ -19,7 +25,7 @@ type TodoList interface {
 type TodoItem interface {
 }
 
-// композиция интерфейсов в интерфейсе сервис
+// Структура с Интерфейсами для общения верхнего слоя с бизнес-логикой
 type Service struct {
 	Authorization
 	TodoList
@@ -28,6 +34,6 @@ type Service struct {
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
-		Authorization: NewAuthService(repos.Authorization),
+		Authorization: NewAuthService(repos),
 	}
 }

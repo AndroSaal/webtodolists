@@ -7,7 +7,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-// тип реализующий интерфейс
+// тип реализующий интерфейс repository.Repository.Authorization
 type AuthPostgres struct {
 	db *sqlx.DB
 }
@@ -29,4 +29,13 @@ func (r *AuthPostgres) CreateUser(user todo.User) (int, error) {
 		return 0, err
 	}
 	return id, nil
+}
+
+func (r *AuthPostgres) GetUser(username, password string) (todo.User, error) {
+	var user todo.User
+
+	query := fmt.Sprintf("SELECT * FROM %s WHERE username = $1 AND password_hash = $2", usersTable)
+	err := r.db.Get(&user, query, username /*$1 в query*/, password /*$2 в query*/)
+
+	return user, err
 }

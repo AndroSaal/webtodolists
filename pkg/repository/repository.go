@@ -7,19 +7,17 @@ import (
 )
 
 // интерфейс для работы с пользователем
-type Authorization interface{
+type Authorization interface {
 	CreateUser(user todo.User) (int, error)
-
+	GetUser(username, password string) (todo.User, error)
 }
 
 // интерфейсы для работы со списками
-type TodoList interface{
-
+type TodoList interface {
 }
 
 // интерфейс для работы с item
-type TodoItem interface{
-
+type TodoItem interface {
 }
 
 type Repository struct {

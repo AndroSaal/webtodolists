@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//структура верхнего уровня, взаимодействие с сервера с клиентом
 type Handler struct {
 	services *service.Service
 }
@@ -17,8 +18,12 @@ Hendler из пакета net/http
 */
 
 func NewHandler(service *service.Service) *Handler {
-	return &Handler{services: service}
+	return &Handler{
+		services: service,
+	}
 }
+
+//метод инициализации роутов
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
