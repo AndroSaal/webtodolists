@@ -18,7 +18,7 @@ const (
 
 type tokenClaims struct {
 	jwt.StandardClaims
-	UserId int `json: "user_id"`
+	UserId int `json:"user_id"`
 }
 
 // реализация интерфейса Authorization
@@ -37,7 +37,7 @@ func (s *AuthService) CreateUser(user todo.User) (int, error) {
 }
 
 func (s *AuthService) GetUser(username, password string) (todo.User, error) {
-	return s.repo.GetUser(username, password)
+	return s.repo.GetUser(username, generatePasswordHash(password))
 }
 
 // func (s *AuthService) GetUser(user todo.User) (int, error) {
