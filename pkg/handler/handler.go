@@ -35,7 +35,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	}
 
 	//инициализация группы /api
-	api := router.Group("/api")
+	api := router.Group("/api", h.UserIdentity)
 	{
 		//группа lists для работы со списками
 		lists := api.Group("/lists")

@@ -15,6 +15,9 @@ type Authorization interface {
 
 	//генерация пользователю токена
 	GenerateToken(username, password string) (string, error)
+
+	//обработка Токена (парсинг)
+	ParseToken(token string) (int, error)
 }
 
 // интерфейсы для работы со списками
