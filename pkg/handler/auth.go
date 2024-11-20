@@ -41,7 +41,7 @@ func (h *Handler) singIn(c *gin.Context) {
 	var input userAuth
 
 	// с хранит в себе информацию о поступившем запросе,
-	//метод BindJSON парсит тело запроса и записывает
+	// метод BindJSON парсит тело запроса и записывает
 	// информацию из тела запроса в переменную input
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
