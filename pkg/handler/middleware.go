@@ -4,15 +4,17 @@ import (
 	"net/http"
 	"strings"
 
+	"errors"
+
 	"github.com/gin-gonic/gin"
 )
 
 const (
 	autorizationHeader = "Authorization"
-	userCtx = "userId"
+	userCtx            = "userId"
 )
 
-func (h *Handler) UserIdentity (c *gin.Context) {
+func (h *Handler) UserIdentity(c *gin.Context) {
 
 	// Получаем токен из хэдера авторизации
 	header := c.GetHeader(autorizationHeader)
@@ -37,6 +39,21 @@ func (h *Handler) UserIdentity (c *gin.Context) {
 	}
 
 	c.Set(userCtx, userId)
+}
 
+func getUserId(c *gin.Context) (int, error) {
+	id, ok := c.Get(userCtx)
 
+	if !ok {
+		newErrorResponse(c, http.StatusInternalServerError, "user not found")
+		return 0, errors.New("user not found")
+	}
+
+	idInt, ok := id.(int)
+	if !ok {
+		newErrorResponse(c, http.StatusInternalServerError, "user id is unvalid type")
+		return 0, errors.New("user id type is unvalid")
+	}
+
+	return idInt, nil
 }
