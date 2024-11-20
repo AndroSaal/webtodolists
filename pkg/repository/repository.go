@@ -14,6 +14,7 @@ type Authorization interface {
 
 // интерфейсы для работы со списками
 type TodoList interface {
+	CreateList(userId int, list todo.TodoList) (int, error)
 }
 
 // интерфейс для работы с item
@@ -29,6 +30,7 @@ type Repository struct {
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
+		TodoList:      NewListPostgres(db),
 	}
 
 }
