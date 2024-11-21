@@ -5,7 +5,7 @@ import (
 	"ToDoApp/pkg/repository"
 )
 
-// интерфейс для работы с пользователем
+// интерфейс для сервиса для работы с пользователем
 type Authorization interface {
 	//принимает структуру юзера и возвращает его id в базе и ошибку
 	CreateUser(user todo.User) (int, error)
@@ -20,8 +20,9 @@ type Authorization interface {
 	ParseToken(token string) (int, error)
 }
 
-// интерфейсы для работы со списками
+// интерфейс для сервиса для работы со списками
 type TodoList interface {
+	CreateList(userId int, list todo.TodoList) (int, error)
 }
 
 // интерфейс для работы с item
@@ -38,5 +39,6 @@ type Service struct {
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos),
+		TodoList:    NewToDoListService(repos),
 	}
 }
