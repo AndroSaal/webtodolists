@@ -1,17 +1,13 @@
 package todo
 
+//получаем из запроса
 type TodoList struct {
 	Id 			int    `json:"id"`
 	Title 	    string `json:"title"`
 	Description string `json:"description"`
 }
 
-type UserList struct {
-	Id 	   int
-	UserId int
-	ListId int
-}
-
+//получаем из запроса
 type TodoItem struct {
 	Id 			int 	`json:"id"`
 	Title 		string 	`json:"title"`
@@ -19,6 +15,14 @@ type TodoItem struct {
 	Done 		bool 	`json:"done"`
 }
 
+//для связи сущностей
+type UserList struct {
+	Id 	   int
+	UserId int
+	ListId int
+}
+
+//для связи сущностей
 type LIstsItem struct {
 	Id 	   int
 	ListId int
