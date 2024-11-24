@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//транспортный уровень
+// транспортный уровень
 func (h *Handler) createList(c *gin.Context) {
 
 	userId, ok := getUserId(c)
@@ -35,7 +35,22 @@ func (h *Handler) createList(c *gin.Context) {
 }
 
 func (h *Handler) getAllList(c *gin.Context) {
-	
+
+	//получение id user'a
+	userId, ok := getUserId(c)
+	if ok != nil {
+		newErrorResponse(c, http.StatusBadRequest, "User not found")
+		return
+	}
+
+	lists, err := h.services.TodoList.GetAll(userId)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, lists)
+
 }
 
 func (h *Handler) getListById(c *gin.Context) {
