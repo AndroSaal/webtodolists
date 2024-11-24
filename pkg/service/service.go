@@ -23,6 +23,7 @@ type Authorization interface {
 // интерфейс для сервиса для работы со списками
 type TodoList interface {
 	CreateList(userId int, list todo.TodoList) (int, error)
+	GetAll(userId int) ([]todo.TodoList, error)
 }
 
 // интерфейс для работы с item
@@ -39,6 +40,6 @@ type Service struct {
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos),
-		TodoList:    NewToDoListService(repos),
+		TodoList:      NewToDoListService(repos),
 	}
 }
