@@ -7,19 +7,23 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//транспортный уровень
 func (h *Handler) createList(c *gin.Context) {
+
 	userId, ok := getUserId(c)
 	if ok != nil {
+		newErrorResponse(c, http.StatusBadRequest, "User not found")
 		return
 	}
 
+	//инициализируем сущность Лист, из контекста десериализуем в сущность
 	var input todo.TodoList
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	//call service method
+	//вызов метода создание списка
 	id, err := h.services.TodoList.CreateList(userId, input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())

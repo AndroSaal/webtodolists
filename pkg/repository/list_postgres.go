@@ -1,3 +1,5 @@
+//имплементация интерфейса ToDoList из repository.go
+
 package repository
 
 import (
@@ -6,8 +8,6 @@ import (
 
 	"github.com/jmoiron/sqlx"
 )
-
-//имплементация интерфейса ToDoList
 
 type ToDoListPostgres struct {
 	db *sqlx.DB
