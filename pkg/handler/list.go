@@ -49,7 +49,7 @@ func (h *Handler) getAllList(c *gin.Context) {
 		return
 	}
 
-	lists, err := h.services.TodoList.GetAll(userId)
+	lists, err := h.services.TodoList.GetAllList(userId)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return

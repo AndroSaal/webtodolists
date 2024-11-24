@@ -49,7 +49,7 @@ func (t *ToDoListPostgres) CreateList(userId int, list todo.TodoList) (int, erro
 	return id, tx.Commit()
 }
 
-func (t *ToDoListPostgres) GetAll(userId int) ([]todo.TodoList, error) {
+func (t *ToDoListPostgres) GetAllList(userId int) ([]todo.TodoList, error) {
 	var lists []todo.TodoList
 
 	query := fmt.Sprintf(`SELECT tdlst.id, tdlst.title, tdlst.description FROM %s tdlst 
