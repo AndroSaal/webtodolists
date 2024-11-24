@@ -22,8 +22,14 @@ type Authorization interface {
 
 // интерфейс для сервиса для работы со списками
 type TodoList interface {
+	//создание списка по id пользователя, возвращает id
 	CreateList(userId int, list todo.TodoList) (int, error)
+
+	//получение всех списков пользователя по его id
 	GetAll(userId int) ([]todo.TodoList, error)
+
+	//получение сиска пользователя по id юзера и id списка
+	GetById(userId, listId int) (todo.TodoList, error)
 }
 
 // интерфейс для работы с item

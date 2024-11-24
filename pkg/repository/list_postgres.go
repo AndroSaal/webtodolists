@@ -27,7 +27,7 @@ func (t *ToDoListPostgres) CreateList(userId int, list todo.TodoList) (int, erro
 
 	var id int
 
-	createListQuery := fmt.Sprintf("INSERT INTO %s (title, description) VALUES ($1, $2) RETURNING id", todoListTable)
+	createListQuery := fmt.Sprintf(`INSERT INTO %s (title, description) VALUES ($1, $2) RETURNING id`, todoListTable)
 	row := tx.QueryRow(createListQuery, list.Title, list.Description)
 
 	//если возникают какие-то ошибки - возвращаем все назад
@@ -36,7 +36,7 @@ func (t *ToDoListPostgres) CreateList(userId int, list todo.TodoList) (int, erro
 		return 0, err
 	}
 
-	createUsersListQuery := fmt.Sprintf("INSERT INTO %s (user_id, list_id) VALUES ($1, $2)", usersListsTable)
+	createUsersListQuery := fmt.Sprintf(`INSERT INTO %s (user_id, list_id) VALUES ($1, $2)`, usersListsTable)
 
 	//вополнение запроса, без чтение возвращаемой информации, если возникают ошибки
 	//то откатываем транзакцию
@@ -51,9 +51,24 @@ func (t *ToDoListPostgres) CreateList(userId int, list todo.TodoList) (int, erro
 func (t *ToDoListPostgres) GetAll(userId int) ([]todo.TodoList, error) {
 	var lists []todo.TodoList
 
-	query := fmt.Sprintf("SELECT tdlst.id, tdlst.title, tdlst.description FROM %s tdlst INNER JOIN %s usrlst ON tdlst.id = usrlst.list_id WHERE usrlst.user_id = $1",
+	query := fmt.Sprintf(`SELECT tdlst.id, tdlst.title, tdlst.description FROM %s tdlst 
+							INNER JOIN %s usrlst ON tdlst.id = usrlst.list_id WHERE usrlst.user_id = $1`,
 		todoListTable, usersListsTable)
 	err := t.db.Select(&lists, query, userId)
 
 	return lists, err
+}
+
+func (t *ToDoListPostgres) GetById(userId, listId int) (todo.TodoList, error) {
+	var list todo.TodoList
+
+	query := fmt.Sprintf(`SELECT tdlst.id, tdlst.title, tdlst.description FROM %s tdlst 
+							INNER JOIN %s usrlst ON tdlst.id = usrlst.list_id 
+							WHERE usrlst.user_id = $1 AND tdlst.id = $2`,
+		todoListTable, usersListsTable)
+
+	err := t.db.Get(&list, query, userId, listId)
+
+	return list, err
+
 }
