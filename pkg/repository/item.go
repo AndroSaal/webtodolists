@@ -12,11 +12,11 @@ type TodoItemPostgres struct {
 	db *sqlx.DB
 }
 
-func NewTodoItemPostgres(db *sqlx.DB) *TodoItemPostgres {
+func NewItemPostgres(db *sqlx.DB) *TodoItemPostgres {
 	return &TodoItemPostgres{db: db}
 }
 
-func (t *TodoItemPostgres) Create(listId, item todo.TodoItem) (int, error) {
+func (t *TodoItemPostgres) Create(listId int, item todo.TodoItem) (int, error) {
 	tx, err := t.db.Begin() //старутем транзакцию
 	if err != nil {
 		return 0, err
@@ -43,4 +43,17 @@ func (t *TodoItemPostgres) Create(listId, item todo.TodoItem) (int, error) {
 	}
 
 	return itemId, tx.Commit()
+}
+
+func (t *TodoItemPostgres) GetAll(listId int) ([]todo.TodoItem, error) {
+
+	var items []todo.TodoItem
+
+	query := fmt.Sprintf("SELECT * FORM %s ti INNER JOIN %s li ON li.item_id = ti.id", todoItemsTable, listsItemsTable)
+
+	if err := t.db.Select(&items, query, listId); err != nil {
+		return nil, err
+	}
+
+	return items, nil
 }

@@ -26,7 +26,7 @@ type TodoList interface {
 	CreateList(userId int, list todo.TodoList) (int, error)
 
 	//получение всех списков пользователя по его id
-	GetAll(userId int) ([]todo.TodoList, error)
+	GetAllList(userId int) ([]todo.TodoList, error)
 
 	//получение сиска пользователя по id юзера и id списка
 	GetById(userId, listId int) (todo.TodoList, error)
@@ -39,8 +39,11 @@ type TodoList interface {
 
 // интерфейс для работы с item
 type TodoItem interface {
-	//поздание задачи, возвращает id созданной задачи
+	//создание задачи, возвращает id созданной задачи
 	Create(userId, listId int, item todo.TodoItem) (int, error)
+
+	//получение всех задач из списка пользователя
+	GetAll(userId, listId int) ([]todo.TodoItem, error)
 }
 
 // Структура с Интерфейсами для общения верхнего слоя с бизнес-логикой
@@ -52,8 +55,8 @@ type Service struct {
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
-		Authorization: NewAuthService(repos),
-		TodoList:      NewToDoListService(repos),
-		TodoItem:      NewToDoItemService(repos, repos),
+		Authorization: NewAuthService(repos.Authorization),
+		TodoList:      NewToDoListService(repos.TodoList),
+		TodoItem:      NewToDoItemService(repos.TodoItem, repos.TodoList),
 	}
 }

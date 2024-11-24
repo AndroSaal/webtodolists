@@ -28,3 +28,14 @@ func (s *TodoItemService) Create(userId, listId int, item todo.TodoItem) (int, e
 	//передаём на уровень ниже - в уровень репозитория
 	return s.repo.Create(listId, item)
 }
+
+func (s *TodoItemService) GetAll(userId, listId int) ([]todo.TodoItem, error) {
+
+	_, err := s.listRepo.GetById(userId, listId)
+	if err != nil {
+		//list does not even exist or not belong to user
+		return nil, err
+	}
+
+	return s.repo.GetAll(listId)
+}

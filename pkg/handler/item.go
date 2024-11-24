@@ -46,17 +46,39 @@ func (h *Handler) createItem(c *gin.Context) {
 }
 
 func (h *Handler) getAllItem(c *gin.Context) {
+	//для получения всех задач списка нужно получать id пользователя и id списка
+	userId, ok := getUserId(c) //получаем id пользователя из midleware
+	if ok != nil {
+		newErrorResponse(c, http.StatusBadRequest, "This user not found")
+		return
+	}
+
+	//получение id списка
+	listId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, fmt.Sprintf(err.Error(), " This list not found"))
+		return
+	}
+
+	//вызов нижележащего уровня
+	items, err := h.services.TodoItem.GetAll(userId, listId)
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, items)
 
 }
 
 func (h *Handler) getItemById(c *gin.Context) {
-
+	c.JSON(http.StatusOK, "SOMEDAY I WILL FINISH IT")
 }
 
 func (h *Handler) updateItem(c *gin.Context) {
-
+	c.JSON(http.StatusOK, "SOMEDAY I WILL FINISH IT")
 }
 
 func (h *Handler) deleteItem(c *gin.Context) {
-
+	c.JSON(http.StatusOK, "SOMEDAY I WILL FINISH IT")
 }
