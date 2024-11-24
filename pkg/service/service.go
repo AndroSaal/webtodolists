@@ -1,7 +1,7 @@
 package service
 
 import (
-	todo "ToDoApp"
+	todo "ToDoApp/entities"
 	"ToDoApp/pkg/repository"
 )
 
@@ -33,6 +33,8 @@ type TodoList interface {
 
 	//Удаление списка по id
 	DeleteById(userId, ListId int) error
+
+	UpdateById(userId, listId int, input todo.UpdateListInput) error
 }
 
 // интерфейс для работы с item

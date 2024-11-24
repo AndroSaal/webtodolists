@@ -1,7 +1,7 @@
 package repository
 
 import (
-	todo "ToDoApp"
+	todo "ToDoApp/entities"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -18,6 +18,7 @@ type TodoList interface {
 	GetAll(userId int) ([]todo.TodoList, error)
 	GetById(userId, listId int) (todo.TodoList, error)
 	DeleteById(userId, listId int) error
+	UpdateById(userId, listId int, list todo.UpdateListInput) error
 }
 
 // интерфейс для работы с item
