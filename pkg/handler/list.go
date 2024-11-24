@@ -1,13 +1,15 @@
+// транспортный уровень
+
 package handler
 
 import (
 	todo "ToDoApp"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
-// транспортный уровень
 func (h *Handler) createList(c *gin.Context) {
 
 	userId, ok := getUserId(c)
@@ -60,7 +62,28 @@ func (h *Handler) getAllList(c *gin.Context) {
 }
 
 func (h *Handler) getListById(c *gin.Context) {
+	userId, ok := getUserId(c)
+	if ok != nil {
+		newErrorResponse(c, http.StatusBadRequest, "User not found")
+		return
+	}
 
+	listId, err := strconv.Atoi(c.Param("id"))
+	{
+		if err != nil {
+			newErrorResponse(c, http.StatusBadRequest, err.Error())
+			return
+		}
+
+	}
+
+	list, err := h.services.TodoList.GetById(userId, listId)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, list)
 }
 
 func (h *Handler) updateList(c *gin.Context) {
