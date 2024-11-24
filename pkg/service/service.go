@@ -30,6 +30,9 @@ type TodoList interface {
 
 	//получение сиска пользователя по id юзера и id списка
 	GetById(userId, listId int) (todo.TodoList, error)
+
+	//Удаление списка по id
+	DeleteById(userId, ListId int) error
 }
 
 // интерфейс для работы с item
