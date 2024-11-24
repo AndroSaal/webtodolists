@@ -90,6 +90,33 @@ func (h *Handler) updateList(c *gin.Context) {
 
 }
 
-func (h *Handler) deleteList(c *gin.Context) {
+// ss
 
+func (h *Handler) deleteList(c *gin.Context) {
+	userId, ok := getUserId(c)
+	if ok != nil {
+		newErrorResponse(c, http.StatusBadRequest, "User not found")
+		return
+	}
+
+	listId, err := strconv.Atoi(c.Param("id"))
+	{
+		if err != nil {
+			newErrorResponse(c, http.StatusBadRequest, err.Error())
+			return
+		}
+
+	}
+
+	err = h.services.TodoList.DeleteById(userId, listId)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	} else {
+
+	}
+
+	c.JSON(http.StatusOK, ststusResponse{
+		Status: "ok",
+	})
 }
