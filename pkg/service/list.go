@@ -3,7 +3,7 @@ package service
 //сервис для работы со списками
 
 import (
-	todo "ToDoApp"
+	todo "ToDoApp/entities"
 	"ToDoApp/pkg/repository"
 )
 
@@ -33,4 +33,8 @@ func (t *TodoListService) GetById(userId, listId int) (todo.TodoList, error) {
 
 func (t *TodoListService) DeleteById(userId, listId int) error {
 	return t.repo.DeleteById(userId, listId)
+}
+
+func (t *TodoListService) UpdateById(userId, listId int, list todo.UpdateListInput) error {
+	return t.repo.UpdateById(userId, listId, list)
 }

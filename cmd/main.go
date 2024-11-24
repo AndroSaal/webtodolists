@@ -1,7 +1,7 @@
 package main
 
 import (
-	todo "ToDoApp"
+	todo "ToDoApp/entities"
 	"ToDoApp/pkg/handler"
 	"ToDoApp/pkg/repository"
 	"ToDoApp/pkg/service"

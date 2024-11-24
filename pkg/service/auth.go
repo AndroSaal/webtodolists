@@ -1,7 +1,7 @@
 package service
 
 import (
-	todo "ToDoApp"
+	todo "ToDoApp/entities"
 	"ToDoApp/pkg/repository"
 	"crypto/sha1"
 	"errors"

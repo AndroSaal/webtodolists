@@ -3,7 +3,7 @@
 package handler
 
 import (
-	todo "ToDoApp"
+	todo "ToDoApp/entities"
 	"net/http"
 	"strconv"
 
@@ -87,10 +87,33 @@ func (h *Handler) getListById(c *gin.Context) {
 }
 
 func (h *Handler) updateList(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		newErrorResponse(c, http.StatusNonAuthoritativeInfo, err.Error())
+		return
+	}
 
+	listId, err := strconv.Atoi(c.Param("id"))
+	{
+		if err != nil {
+			newErrorResponse(c, http.StatusBadRequest, err.Error())
+			return
+		}
+
+	}
+
+	var input todo.UpdateListInput
+	if err := c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err := h.services.TodoList.UpdateById(userId, listId, input); err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+	}
+
+	c.JSON(http.StatusOK, ststusResponse{"ok"})
 }
-
-// ss
 
 func (h *Handler) deleteList(c *gin.Context) {
 	userId, ok := getUserId(c)

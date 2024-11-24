@@ -1,7 +1,7 @@
 package handler
 
 import (
-	todo "ToDoApp"
+	todo "ToDoApp/entities"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
