@@ -39,6 +39,8 @@ type TodoList interface {
 
 // интерфейс для работы с item
 type TodoItem interface {
+	//поздание задачи, возвращает id созданной задачи
+	Create(userId, listId int, item todo.TodoItem) (int, error)
 }
 
 // Структура с Интерфейсами для общения верхнего слоя с бизнес-логикой
@@ -52,5 +54,6 @@ func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos),
 		TodoList:      NewToDoListService(repos),
+		TodoItem:      NewToDoItemService(repos, repos),
 	}
 }
