@@ -34,6 +34,10 @@ func (h *Handler) createList(c *gin.Context) {
 
 }
 
+type getAllListResponse struct {
+	Data []todo.TodoList `json:"data"`
+}
+
 func (h *Handler) getAllList(c *gin.Context) {
 
 	//получение id user'a
@@ -49,7 +53,9 @@ func (h *Handler) getAllList(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, lists)
+	c.JSON(http.StatusOK, getAllListResponse{
+		Data: lists,
+	})
 
 }
 
