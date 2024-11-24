@@ -16,10 +16,10 @@ type Config struct {
 }
 
 const (
-	usersTable = "users"
-	todoListTable = "todo_lists"
-	usersListsTable = "users_lists"
-	tosoItemsTable = "toso_items"
+	usersTable      = "users"
+	todoListTable   = "todo_lists"
+	usersListsTable = "users_list"
+	tosoItemsTable  = "toso_items"
 	listsItemsTable = "lists_items"
 )
 
