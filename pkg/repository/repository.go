@@ -15,6 +15,7 @@ type Authorization interface {
 // интерфейсы для работы со списками
 type TodoList interface {
 	CreateList(userId int, list todo.TodoList) (int, error)
+	GetAll(userId int) ([]todo.TodoList, error)
 }
 
 // интерфейс для работы с item
